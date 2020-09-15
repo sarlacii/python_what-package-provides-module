@@ -42,3 +42,21 @@ The closest I could initially get to for a solution, was to generate a requireme
 > wheel==0.35.1
 
 So I designed a simple solution to find what pip package provides a particular module.
+
+Run as follows:
+
+# -d for debug:
+>./python_what-package-provides-module.py -m subprocess -d
+[DEBUG] Got these arguments:
+Namespace(debug=True, module='subprocess')
+[DEBUG] self.location: /usr/lib64/python3.6/subprocess.py
+[ERROR] location does not contain "site-packages/" substring!
+Found location: /usr/lib64/python3.6/subprocess.py
+[ERROR] Parsing module "subprocess"!
+location: /usr/lib64/python3.6/subprocess.py
+Exiting.
+
+>./python_what-package-provides-module.py -m serial
+pyserial-3.4.dist-info
+>./python_what-package-provides-module.py -m usb
+pyusb-1.0.2.dist-info

@@ -16,11 +16,12 @@ You can check the path of the imported module - which can give you a clue. But c
 It is in a "serial" directory, but only pyserial is in fact installed, not serial:
 
 >> python3 -m pip list | grep serial
->pyserial                 3.4
+> pyserial                 3.4
 
 The closest I could initially get to for a solution, was to generate a requirements.txt via "pipreqs ./" which may fail on a dependent child file (as it did with me), or to reverse check dependencies via pipenv (which brings a whole set of new issues along, to get it all setup):
 
 >> pipenv graph --reverse
+
 > cymysql==0.9.15
 > ftptool==0.7.1
 > netifaces==0.10.9

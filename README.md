@@ -10,12 +10,15 @@ However, the problem comes in if the name of the package does not match the name
 You can check the path of the imported module - which can give you a clue. But continuing the example...
 
 >> import serial
+
 >> print(serial.__file__)
+
 > /usr/lib/python3.6/site-packages/serial/__init__.py
 
 It is in a "serial" directory, but only pyserial is in fact installed, not serial:
 
 >> python3 -m pip list | grep serial
+
 > pyserial                 3.4
 
 The closest I could initially get to for a solution, was to generate a requirements.txt via "pipreqs ./" which may fail on a dependent child file (as it did with me), or to reverse check dependencies via pipenv (which brings a whole set of new issues along, to get it all setup):

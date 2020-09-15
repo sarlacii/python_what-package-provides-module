@@ -35,9 +35,8 @@ So I designed a simple solution to find what pip package provides a particular m
 
 ## Run as follows:
 
--m/--module for the module name you wish to find the package for
-
--d/--debug for debug
+- "-m/--module" for the module name you wish to find the package for
+- "-d/--debug" for debug
 
 ```
 > ./python_what-package-provides-module.py -m subprocess -d

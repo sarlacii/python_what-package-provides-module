@@ -23,12 +23,19 @@ The closest I could initially get to for a solution, was to generate a requireme
 >> pipenv graph --reverse
 
 > cymysql==0.9.15
+
 > ftptool==0.7.1
+
 > netifaces==0.10.9
+
 > pip==20.2.2
+
 > PyQt5-sip==12.8.1
+
 >     - PyQt5==5.15.0 [requires: PyQt5-sip>=12.8,<13]
+
 > setuptools==50.3.0
+
 > wheel==0.35.1
 
 So I designed a simple solution to find what pip package provides a particular module.

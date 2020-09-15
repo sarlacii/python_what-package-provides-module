@@ -35,19 +35,19 @@ class application ():
 		#debugPrint("Running with args:\n%s" % (self.argsPassed))
 		try:
 			if self.argsPassed.module is not None:
-				self.moduleName=self.argsPassed.module  #i.e. the module that you're trying to match with a package.
+				self.moduleName = self.argsPassed.module  #i.e. the module that you're trying to match with a package.
 			else:
-				self.moduleName=TESTMODULE
+				self.moduleName = TESTMODULE
 				print("[WARN] No module name supplied - defaulting to %s!" % (TESTMODULE))
 			try:
-				self.location=importlib.util.find_spec(self.moduleName).origin
+				self.location = importlib.util.find_spec(self.moduleName).origin
 				debugPrint("self.location: %s" % self.location)
 			except:
 				print("[ERROR] No module with that name found!")
 				raise
 			if len(self.location) > 0:
 				try:
-					self.locationStr=self.location.split("site-packages/",1)[1]
+					self.locationStr = self.location.split("site-packages/",1)[1]
 					debugPrint("self.locationStr: %s" % self.locationStr)
 					#serial/__init__.py
 				except:
@@ -67,8 +67,8 @@ class application ():
 			pass
 
 		try:
-			distResult=self.getDistribution(self.location)
-			self.packageStrDist=distResult.metadata['Name']
+			distResult = self.getDistribution(self.location)
+			self.packageStrDist = distResult.metadata['Name']
 			print(self.packageStrDist)
 		except Exception as e:
 			print ("[ERROR] getDistribution failed: %s" % str(e))
@@ -78,27 +78,32 @@ class application ():
 		return self.packageStr
 
 	def getPackage (self):
-		locationDir=self.location.split(self.locationStr,1)[0]
+		locationDir = self.location.split(self.locationStr,1)[0]
 		debugPrint("locationDir: %s" % locationDir)
 		#/usr/lib/python3.6/site-packages
 		cmd='find \"' + locationDir + '\" -type f -iname \'RECORD\' -printf \'\"%p\"\\n\' | xargs grep \"' + self.locationStr + '\" -l -Z'
-		debugPrint("Find command:" + cmd)
+		debugPrint("Find command: " + cmd)
 		#find "/usr/lib/python3.6/site-packages" -type f -iname 'RECORD' -printf '"%p"\n' | xargs grep "serial/__init__.py" -l -Z
 
 		#return_code = os.system(cmd)
 		#return_code = subprocess.run([cmd], stdout=subprocess.PIPE, universal_newlines=True, shell=False)
 		#findResultAll = return_code.stdout
-		findResultAll = subprocess.check_output(cmd, shell=True)    # Returns stdout as byte array, null terminated.
-		if findResultAll is not None:
+		findResultAll = b''
+		try:
+			findResultAll = subprocess.check_output(cmd, shell=True)    # Returns stdout as byte array, null terminated.
+		except Exception as e:
+			print ("[ERROR] find failed: %s" % str(e))
+			pass
+		if findResultAll:
 			findResult = str(findResultAll.decode('ascii').strip().strip('\x00'))
 			debugPrint("findResult: %s" % findResult)
 			#/usr/lib/python3.6/site-packages/pyserial-3.4.dist-info/RECORD
 		else:
-			print("[ERROR] Cannot find (user) module with that name in %s! Exiting." % (locationDir))
+			print("[ERROR] Cannot find a RECORD file for this module in %s!\nFound location: %s\nExiting." % (locationDir, self.location))
 			exit(1)
 
 		findDir = os.path.split(findResult)
-		self.packageStr=findDir[0].replace(locationDir,"")
+		self.packageStr = findDir[0].replace(locationDir,"")
 		debugPrint("self.packageStr: %s" % self.packageStr)
 
 	def getDistribution(self, fileName=TESTMODULE):

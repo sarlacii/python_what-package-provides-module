@@ -11,7 +11,7 @@ You can check the path of the imported module - which can give you a clue. But c
 
 >> import serial
 >> print(serial.__file__)
->/usr/lib/python3.6/site-packages/serial/__init__.py
+> /usr/lib/python3.6/site-packages/serial/__init__.py
 
 It is in a "serial" directory, but only pyserial is in fact installed, not serial:
 
@@ -21,13 +21,13 @@ It is in a "serial" directory, but only pyserial is in fact installed, not seria
 The closest I could initially get to for a solution, was to generate a requirements.txt via "pipreqs ./" which may fail on a dependent child file (as it did with me), or to reverse check dependencies via pipenv (which brings a whole set of new issues along, to get it all setup):
 
 >> pipenv graph --reverse
->cymysql==0.9.15
->ftptool==0.7.1
->netifaces==0.10.9
->pip==20.2.2
->PyQt5-sip==12.8.1
->    - PyQt5==5.15.0 [requires: PyQt5-sip>=12.8,<13]
->setuptools==50.3.0
->wheel==0.35.1
+> cymysql==0.9.15
+> ftptool==0.7.1
+> netifaces==0.10.9
+> pip==20.2.2
+> PyQt5-sip==12.8.1
+>     - PyQt5==5.15.0 [requires: PyQt5-sip>=12.8,<13]
+> setuptools==50.3.0
+> wheel==0.35.1
 
 So I designed a simple solution to find what pip package provides a particular module.

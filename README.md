@@ -46,7 +46,7 @@ So I designed a simple solution to find what pip package provides a particular m
 Run as follows:
 
 # -d for debug:
->./python_what-package-provides-module.py -m subprocess -d
+./python_what-package-provides-module.py -m subprocess -d
 [DEBUG] Got these arguments:
 Namespace(debug=True, module='subprocess')
 [DEBUG] self.location: /usr/lib64/python3.6/subprocess.py
@@ -56,7 +56,7 @@ Found location: /usr/lib64/python3.6/subprocess.py
 location: /usr/lib64/python3.6/subprocess.py
 Exiting.
 
->./python_what-package-provides-module.py -m serial
+./python_what-package-provides-module.py -m serial
 pyserial-3.4.dist-info
->./python_what-package-provides-module.py -m usb
+./python_what-package-provides-module.py -m usb
 pyusb-1.0.2.dist-info

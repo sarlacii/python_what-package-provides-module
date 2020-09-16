@@ -33,6 +33,14 @@ wheel==0.35.1
 ```
 So I designed a simple solution to find what pip package provides a particular module.
 
+## The BFG Solution
+
+I first use a metadata query to locate the base file for the requested module. Then I find "site-packages" in the returned path, and extract the base directory. From that base directory I find all references to that base file, in the RECORD files of any modules, recursively entering all sub-directories. This uniquely identifies the package that installed the base file in question. That allows one to identify the parent package of the module.
+
+There is also error handling for system packages and other such modules. These return any located base file, and then error out.
+
+The attempt at using the metadata to further locate the parent package did not work out. Hence the use of a brute-force search. It would be nice to get that working if possible (may only work for system packages etc. I'm not sure).
+
 ## Run as follows:
 
 - "-m/--module" for the module name you wish to find the package for
